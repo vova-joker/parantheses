@@ -15,7 +15,7 @@ public class App
         while (true) {
             System.out.println("Insert parentheses: ");
             String checkedParentheses = checkFullParentheses.checkFullParentheses(scanner.next());
-            System.out.println("Output: " + checkedParentheses);
+            System.out.println(checkedParentheses);
         }
     }
 }
