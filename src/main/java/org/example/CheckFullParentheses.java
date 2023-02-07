@@ -16,7 +16,7 @@ public class CheckFullParentheses {
     public String checkFullParentheses(String str) {
         if (!str.isEmpty()) {
             List<Character> characterList = str.chars().mapToObj(i -> (char) i).collect(Collectors.toList());
-            if (characterList.indexOf(left) < characterList.lastIndexOf(right)) {
+            if (characterList.indexOf(left) < characterList.lastIndexOf(right) && characterList.indexOf(left) >= 0) {
                 characterList = characterList.subList(
                         characterList.indexOf(left),
                         characterList.lastIndexOf(right) + 1);
