@@ -10,16 +10,19 @@ public class CheckFullParentheses {
 
     private final char right = ')';
 
-    private List<Character> characterList2;
+    int lastRightParentheses;
+
 
 
     public String checkFullParentheses(String str) {
         if (!str.isEmpty()) {
             List<Character> characterList = str.chars().mapToObj(i -> (char) i).collect(Collectors.toList());
-            if (characterList.indexOf(left) < characterList.lastIndexOf(right) && characterList.indexOf(left) >= 0) {
+            lastRightParentheses = characterList.lastIndexOf(right);
+            int firstLeftParentheses = characterList.indexOf(left);
+            if (firstLeftParentheses < lastRightParentheses && characterList.contains(left)) {
                 characterList = characterList.subList(
-                        characterList.indexOf(left),
-                        characterList.lastIndexOf(right) + 1);
+                        firstLeftParentheses,
+                        lastRightParentheses + 1);
             } else
                 return "0";
             return foundFullParentheses(characterList);
@@ -30,21 +33,22 @@ public class CheckFullParentheses {
     private String foundFullParentheses(List<Character> characterList) {
         List<Character> parenthesesList = new LinkedList<>();
         int level = 0;
-        characterList2 = new LinkedList<>(characterList);
+        List<Character> characterList2 = new LinkedList<>(characterList);
         for (int i = 0; i < characterList.size(); i++) {
-            if (characterList.get(i).equals(left) && i < characterList.lastIndexOf(right)) {
-                int lastRightIndex = characterList2.lastIndexOf(right);
-                if (lastRightIndex > 0) {
+            int lastRightIndex2 = characterList2.lastIndexOf(right);
+            if (characterList.get(i).equals(left) && i < lastRightParentheses) {
+                if (lastRightIndex2 > 0) {
                     parenthesesList.add(parenthesesList.size() - level, left);
                     parenthesesList.add(parenthesesList.size() - level, right);
                     level++;
-                    characterList2.remove(characterList2.lastIndexOf(right));
+                    characterList2.remove(lastRightIndex2);
                 }
             }
-            if (characterList.get(i).equals(right) && level == 0){
-                characterList2.remove(characterList2.indexOf(right));
+            boolean isEqualsRight = characterList.get(i).equals(right);
+            if (isEqualsRight && level == 0){
+                characterList2.remove(lastRightIndex2);
             }
-            if (characterList.get(i).equals(right) && level > 0) {
+            if (isEqualsRight && level > 0) {
                 level--;
             }
 
